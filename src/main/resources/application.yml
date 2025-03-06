@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://json.schemastore.org/spring-boot-configuration-metadata.json
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sys
+    username: root
+    password: mysql
+
+server:
+  servlet:
+    context-path: /api/v1
+
+
+
+
