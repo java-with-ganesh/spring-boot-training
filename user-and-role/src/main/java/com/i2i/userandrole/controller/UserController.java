@@ -40,6 +40,11 @@ public class UserController {
 
     }
 
+    @GetMapping("/search")
+    public List<UserDto> searchByUserName(@RequestParam(name="name") String name){
+        return userService.searchByName(name);
+    }
+
     @GetMapping
     public List<UserDto> getUsers(){
         return userService.getUsers();
