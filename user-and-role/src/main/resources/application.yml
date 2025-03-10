@@ -7,13 +7,21 @@ spring:
   profiles:
     active: local
   cloud:
+    vault:
+      enabled: true
+      uri: http://127.0.0.1:8200
+      token: hvs.yVo6q9PbPusB7fZUAYKFOnLb
+      kv:
+        enabled: true
+      backend: secret
     config:
       label: ${spring.profiles.active}
       uri: http://localhost:8888
       profile: ${spring.profiles.active}
+      fail-fast: false
+      enabled: true
   config:
-    import: "configserver:"
-
+    import: "vault://,configserver:"
 server:
   servlet:
     context-path: /api/v1
@@ -24,7 +32,10 @@ management:
       exposure:
         include: "*"
 
-
+logging:
+  level:
+    org.springframework.cloud.vault: DEBUG
+    org.springframework.vault: DEBUG
 
 
 

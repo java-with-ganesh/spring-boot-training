@@ -1,0 +1,6 @@
+To Enable Config Server
+
+Run SpringConfigServer Application
+To Run Vault
+
+docker pull docker.io/hasicorp/vault
