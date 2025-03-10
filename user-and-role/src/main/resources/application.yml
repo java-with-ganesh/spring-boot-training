@@ -10,7 +10,7 @@ spring:
     vault:
       enabled: true
       uri: http://127.0.0.1:8200
-      token: hvs.yVo6q9PbPusB7fZUAYKFOnLb
+      token: ${VAULT.TOKEN}
       kv:
         enabled: true
       backend: secret
