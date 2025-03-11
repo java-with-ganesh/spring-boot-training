@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://json.schemastore.org/spring-boot-configuration-metadata.json
+
+
+spring:
+  application:
+    name: user-role
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/prod
+    username: root
+    password: mysql
+
+
+app:
+  secret-key: fKlIVBFDVqsn2xZGgPOv6Kt7tp/tzW4xwFlu4KdDq08=
