@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://json.schemastore.org/spring-boot-configuration-metadata.json
+
+
+spring:
+  application:
+    name: user-role
+  profiles:
+    active: prod
+  cloud:
+    config:
+      label: ${spring.profiles.active}
+      uri: http://localhost:8888
+      profile: ${spring.profiles.active}
+      fail-fast: false
+      enabled: true
+  config:
+    import: "configserver:"
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: spring-boot-client
+            provider: keycloak
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8081/login/oauth2/code/keycloak"
+            scope: openid,profile,email
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/myrealm
+server:
+  port: 8081
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+
+
+logging:
+  level:
+    org.springframework.security: debug

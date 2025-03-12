@@ -14,3 +14,7 @@ spring:
 
 app:
   secret-key: fKlIVBFDVqsn2xZGgPOv6Kt7tp/tzW4xwFlu4KdDq08=
+
+logging:
+  level:
+    org.springframework.security: debug

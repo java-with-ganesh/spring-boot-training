@@ -15,7 +15,9 @@
         <module>user-and-role</module>
         <module>spring-cloud-config-server</module>
         <module>user-and-role-with-auth</module>
+        <module>user-and-role-open-id-connect</module>
     </modules>
+
 
     <build>
         <plugins>

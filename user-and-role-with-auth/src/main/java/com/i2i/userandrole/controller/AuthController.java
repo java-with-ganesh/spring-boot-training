@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +17,7 @@ public class AuthController {
 
     private final JwtUtil jwtUtil;
 
-    @GetMapping("/authenticate")
+    @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthRequest request){
         if(request.getUsername().equals("admin") && request.getPassword().equals("nimda")){
 
