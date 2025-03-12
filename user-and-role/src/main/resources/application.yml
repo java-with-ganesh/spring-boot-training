@@ -5,10 +5,10 @@ spring:
   application:
     name: user-role
   profiles:
-    active: local
+    active: prod
   cloud:
     vault:
-      enabled: true
+      enabled: false
       uri: http://127.0.0.1:8200
       token: hvs.yVo6q9PbPusB7fZUAYKFOnLb
       kv:
@@ -21,11 +21,16 @@ spring:
       fail-fast: false
       enabled: true
   config:
-    import: "vault://,configserver:"
+    import: "configserver:"
 server:
+  port: 8082
   servlet:
     context-path: /api/v1
-
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
 management:
   endpoints:
     web:
