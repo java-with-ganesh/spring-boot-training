@@ -16,9 +16,14 @@
         <module>spring-cloud-config-server</module>
         <module>user-and-role-with-auth</module>
         <module>user-and-role-open-id-connect</module>
+        <module>RedisApplication</module>
     </modules>
 
-
+    <parent>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-parent</artifactId>
+            <version>3.4.3</version>
+    </parent>
     <build>
         <plugins>
             <plugin>
