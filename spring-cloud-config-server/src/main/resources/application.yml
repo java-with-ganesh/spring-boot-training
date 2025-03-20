@@ -7,8 +7,9 @@ spring:
         git:
           uri: https://github.com/java-with-ganesh/spring-cloud-config
           force-pull: true
+          search-paths:
+            - patient-app
 logging:
   level:
     root: info
     org.springframework.cloud.config: debug
-    org.eclipse.jgit: debug

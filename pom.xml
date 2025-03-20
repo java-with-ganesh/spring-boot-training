@@ -17,6 +17,7 @@
         <module>user-and-role-with-auth</module>
         <module>user-and-role-open-id-connect</module>
         <module>RedisApplication</module>
+        <module>patient-module</module>
     </modules>
 
     <parent>

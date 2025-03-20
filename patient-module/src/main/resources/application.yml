@@ -1,0 +1,28 @@
+
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: patient-app
+  profiles:
+    active: local
+  cloud:
+    config:
+      label: ${spring.profiles.active}
+      uri: http://localhost:8888
+      profile: ${spring.profiles.active}
+      fail-fast: false
+      enabled: true
+    vault:
+      enabled: false
+      uri: http://127.0.0.1:8200
+      token: hvs.yVo6q9PbPusB7fZUAYKFOnLb
+      kv:
+        enabled: true
+      backend: secret
+  config:
+    import: "configserver:"
