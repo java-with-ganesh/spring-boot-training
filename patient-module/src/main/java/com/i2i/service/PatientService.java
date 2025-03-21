@@ -4,6 +4,7 @@ import com.i2i.dto.PatientDTO;
 import com.i2i.mapper.PatientMapper;
 import com.i2i.model.Patient;
 import com.i2i.repository.PatientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Transactional
     public PatientDTO createPatient(PatientDTO patientDTO) {
         Patient patient = PatientMapper.INSTANCE.toEntity(patientDTO);
 

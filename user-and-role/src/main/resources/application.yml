@@ -23,7 +23,7 @@ spring:
   config:
     import: "configserver:"
 server:
-  port: 8082
+  port: 8080
   servlet:
     context-path: /api/v1
 springdoc:
@@ -39,7 +39,7 @@ management:
 
 logging:
   level:
-    org.springframework.cloud.vault: DEBUG
+    org.springframework.security: DEBUG
     org.springframework.vault: DEBUG
 
 

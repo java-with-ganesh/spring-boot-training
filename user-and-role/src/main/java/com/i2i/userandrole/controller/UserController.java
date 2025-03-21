@@ -19,44 +19,49 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<UserDto> create(@RequestBody UserRequest userRequest){
+    public ResponseEntity<UserDto> create(@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.create(userRequest));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable long id,@RequestBody UserRequest userRequest){
-        return ResponseEntity.ok(userService.update(id,userRequest));
+    public ResponseEntity<UserDto> update(@PathVariable long id, @RequestBody UserRequest userRequest) {
+        return ResponseEntity.ok(userService.update(id, userRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateAll(@PathVariable long id,@RequestBody UserRequest userRequest){
-        return ResponseEntity.ok(userService.updateAll(id,userRequest));
+    public ResponseEntity<UserDto> updateAll(@PathVariable long id, @RequestBody UserRequest userRequest) {
+        return ResponseEntity.ok(userService.updateAll(id, userRequest));
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable long id){
+    public ResponseEntity<UserDto> getUserById(@PathVariable long id) {
         return ResponseEntity.ok(userService.getUserById(id));
 
     }
 
+    @GetMapping("/validate")
+    public boolean validate() {
+        return true;
+    }
+
     @GetMapping("/search")
-    public List<UserDto> searchByUserName(@RequestParam(name="name") String name){
+    public List<UserDto> searchByUserName(@RequestParam(name = "name") String name) {
         return userService.searchByName(name);
     }
 
     @GetMapping
-    public List<UserDto> getUsers(){
+    public List<UserDto> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/paginated")
-    public Page<UserDto> getUsersByPagination(Pageable pageable){
+    public Page<UserDto> getUsersByPagination(Pageable pageable) {
         return userService.getUsersByPagination(pageable);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable long id){
+    public ResponseEntity<String> deleteById(@PathVariable long id) {
         userService.deleteById(id);
         return ResponseEntity.ok("Deleted Successfully");
 

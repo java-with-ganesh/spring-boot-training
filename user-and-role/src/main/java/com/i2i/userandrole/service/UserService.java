@@ -10,6 +10,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -29,6 +30,8 @@ public class UserService {
 
     private final PlatformTransactionManager platformTransactionManager;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public UserDto getUserById(long id){
        var user= userRepository.findById(id);
        return userMapper.userToUserDto(user.orElseThrow());
@@ -43,6 +46,7 @@ public class UserService {
     public UserDto create(UserRequest userRequest) {
        var trx = platformTransactionManager.getTransaction(TransactionDefinition.withDefaults());
         var user = userMapper.userRequestToUser(userRequest);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         var saved = userRepository.save(user);
         platformTransactionManager.commit(trx);
         return userMapper.userToUserDto(saved);

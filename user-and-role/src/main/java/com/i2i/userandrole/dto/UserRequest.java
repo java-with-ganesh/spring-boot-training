@@ -11,4 +11,7 @@ public class UserRequest {
 
     @NonNull
     private String name;
+
+    @NonNull
+    private String password;
 }

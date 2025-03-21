@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>patient-module</artifactId>
+    <artifactId>vital-sign-module</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>

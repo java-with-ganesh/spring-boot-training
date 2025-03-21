@@ -8,7 +8,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
 import java.time.LocalDate;
 
@@ -30,7 +29,7 @@ public abstract class AuditEntity {
     @LastModifiedBy
     @Column(name = "updated_by")
     private String updatedBy;
-    
+
     @Column(name = "row_version")
     private Long rowVersion;
 }

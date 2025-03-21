@@ -5,8 +5,12 @@ import lombok.*;
 
 @Entity
 @Table(name = "referral_info")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class ReferralInfo extends AuditEntity {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ReferralInfo{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,4 +24,8 @@ public class ReferralInfo extends AuditEntity {
 
     @Column(name = "mobile", nullable = false)
     private String mobile;
+
+    @OneToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 }

@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableFeignClients
 @EnableJpaAuditing
-public class PatientApplication {
+public class VitalSignApplication {
 
     public static void main(String[] args){
-        SpringApplication.run(PatientApplication.class);
+        SpringApplication.run(VitalSignApplication.class);
     }
 }

@@ -18,6 +18,7 @@
         <module>user-and-role-open-id-connect</module>
         <module>RedisApplication</module>
         <module>patient-module</module>
+        <module>vital-sign-module</module>
     </modules>
 
     <parent>

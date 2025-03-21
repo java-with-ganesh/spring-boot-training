@@ -19,7 +19,7 @@ public class Patient extends AuditEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "medical_record_number", nullable = false, unique = true)
+    @Column(name = "medical_record_number")
     private String medicalRecordNumber;
 
     @Column(name = "start_of_care_date", nullable = false)
@@ -64,8 +64,7 @@ public class Patient extends AuditEntity {
     @Column(name = "mobile")
     private String mobile;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "referral_info_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "patient",cascade = CascadeType.ALL)
     private ReferralInfo referralInfo;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)

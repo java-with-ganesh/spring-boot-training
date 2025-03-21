@@ -5,8 +5,12 @@ import lombok.*;
 
 @Entity
 @Table(name = "diagnoses")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Diagnosis extends AuditEntity {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Diagnosis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
