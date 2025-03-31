@@ -7,13 +7,24 @@ public class TestMain {
 
     public static void main(String[] args) {
 
-        var string = "aa// @#%^&Abaadcefg";
-        var counting = string.chars().mapToObj(a -> (char) a)
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        System.out.println(counting);
+        int[] array = {1,2,3,4};
+        int[] output = new int [array.length];
+        int count = 0;
 
-/*        var list = List.of(1000,2000,3000,5000);
-       var thirdSalary = list.stream().sorted((a,b)->Comparator.comparing(a,b)).skip(2).findFirst();
-        System.out.println(thirdSalary);*/
+        for(int i=0;i<array.length;i++){
+            int mul = 1;
+            for(int j=0;j<array.length;j++){
+                if(j != count){
+                    mul = mul * array[j];
+                }
+            }
+            output[i] = mul;
+            count++;
+
+        }
+        for(int i=0;i<output.length;i++){
+            System.out.println(output[i]);
+        }
+
     }
 }

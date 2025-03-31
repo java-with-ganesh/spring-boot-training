@@ -1,5 +1,6 @@
 package com.i2i.userandrole.controller;
 
+import com.i2i.userandrole.LogExecutionTime;
 import com.i2i.userandrole.dto.UserDto;
 import com.i2i.userandrole.dto.UserRequest;
 import com.i2i.userandrole.service.UserService;
@@ -51,6 +52,7 @@ public class UserController {
     }
 
     @GetMapping
+    @LogExecutionTime
     public List<UserDto> getUsers() {
         return userService.getUsers();
     }
