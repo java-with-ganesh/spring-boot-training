@@ -19,6 +19,8 @@
         <module>RedisApplication</module>
         <module>patient-module</module>
         <module>vital-sign-module</module>
+        <module>kafka-mongo-sink</module>
+        <module>patient-search</module>
     </modules>
 
     <parent>

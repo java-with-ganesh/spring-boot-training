@@ -18,6 +18,9 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private PatientPublisher patientPublisher;
+
     @Transactional
     public PatientDTO createPatient(PatientDTO patientDTO) {
         Patient patient = PatientMapper.INSTANCE.toEntity(patientDTO);
@@ -30,8 +33,9 @@ public class PatientService {
 
         // Save again to update the MRN
         patient = patientRepository.save(patient);
-
-        return PatientMapper.INSTANCE.toDTO(patient);
+        patientDTO = PatientMapper.INSTANCE.toDTO(patient);
+        patientPublisher.publishPatient(patientDTO);
+        return patientDTO;
     }
 
     private String generateMRN(Long id) {

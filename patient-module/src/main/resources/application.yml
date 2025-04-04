@@ -1,7 +1,7 @@
 
 
 server:
-  port: 8081
+  port: 8090
   servlet:
     context-path: /api/v1
 
@@ -26,7 +26,19 @@ spring:
       backend: secret
   config:
     import: "configserver:"
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+
+
 
 app:
   user:
     url: http://localhost:8080/api/v1
+  rabbitmq:
+    exchange: patient-exchange
+    routing-key: patient.created
+    queue: patient-queue

@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost:27017/
+      database: audit-db
+  kafka:
+    bootstrap-servers: http://localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: audit-group
+      auto-offset-reset: earliest
+
+server:
+  port: 8085
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core: DEBUG

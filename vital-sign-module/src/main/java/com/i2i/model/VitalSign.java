@@ -1,5 +1,6 @@
 package com.i2i.model;
 
+import com.ideas2it.audit.listener.AuditLog;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@AuditLog
 public class VitalSign extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

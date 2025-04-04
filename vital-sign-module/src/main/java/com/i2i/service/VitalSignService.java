@@ -29,8 +29,8 @@ public class VitalSignService {
     }
 
     public VitalSignDTO updateVitalSign(Long id, VitalSignDTO vitalSignDTO) {
-        VitalSign vitalSign = VitalSignMapper.INSTANCE.toEntity(vitalSignDTO);
-        vitalSign.setId(id);
+        var vitalSign = vitalSignRepository.findById(id).orElseThrow();
+        VitalSignMapper.INSTANCE.toEntityWithDefaults(vitalSignDTO, vitalSign);
         return VitalSignMapper.INSTANCE.toDTO(vitalSignRepository.save(vitalSign));
     }
 
