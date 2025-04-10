@@ -3,7 +3,6 @@ package com.i2i.service;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -30,11 +29,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             var headers = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
             var valid = feignClient.validateUser(headers);
             if (!valid) {
-                throw new BadCredentialsException("Invalid Credentials");
+                throw new RuntimeException("Invalid Credentials");
             }
             return new UsernamePasswordAuthenticationToken(username, password, null);
         } catch (FeignException.FeignClientException e) {
-            throw new BadCredentialsException("Invalid Credentials");
+            throw new RuntimeException("Authentication error: " + e.getMessage());
         }
     }
 

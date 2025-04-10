@@ -5,6 +5,7 @@ import com.i2i.mapper.PatientMapper;
 import com.i2i.model.Patient;
 import com.i2i.repository.PatientRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
@@ -23,6 +25,7 @@ public class PatientService {
 
     @Transactional
     public PatientDTO createPatient(PatientDTO patientDTO) {
+        log.info("creating patient");
         Patient patient = PatientMapper.INSTANCE.toEntity(patientDTO);
 
         // First save the patient to generate ID
@@ -35,6 +38,7 @@ public class PatientService {
         patient = patientRepository.save(patient);
         patientDTO = PatientMapper.INSTANCE.toDTO(patient);
         patientPublisher.publishPatient(patientDTO);
+        log.info("patient with id {} created and published to RabbitMQ", patient.getId());
         return patientDTO;
     }
 
@@ -49,7 +53,7 @@ public class PatientService {
     }
 
     public PatientDTO getPatientById(Long id) {
-        return patientRepository.findById(id).map(PatientMapper.INSTANCE::toDTO).orElse(null);
+        return patientRepository.findById(id).map(PatientMapper.INSTANCE::toDTO).orElseThrow();
     }
 
     public List<PatientDTO> getAllPatients() {

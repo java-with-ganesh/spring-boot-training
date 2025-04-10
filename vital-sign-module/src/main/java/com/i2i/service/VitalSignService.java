@@ -5,6 +5,7 @@ import com.i2i.mapper.VitalSignMapper;
 import com.i2i.model.VitalSign;
 import com.i2i.repository.VitalSignRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,17 +15,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class VitalSignService {
     @Autowired
     private VitalSignRepository vitalSignRepository;
 
     @Transactional
     public VitalSignDTO createVitalSign(VitalSignDTO vitalSignDTO) {
+        log.info("creating vital sign for user {}",vitalSignDTO.getPatientMrnNumber());
         VitalSign vitalSign = VitalSignMapper.INSTANCE.toEntity(vitalSignDTO);
 
         // First save the vitalSign to generate ID
         vitalSign = vitalSignRepository.save(vitalSign);
-
+        log.info("vital sign created for user {}",vitalSignDTO.getPatientMrnNumber());
         return VitalSignMapper.INSTANCE.toDTO(vitalSign);
     }
 
@@ -35,7 +38,7 @@ public class VitalSignService {
     }
 
     public VitalSignDTO getVitalSignById(Long id) {
-        return vitalSignRepository.findById(id).map(VitalSignMapper.INSTANCE::toDTO).orElse(null);
+        return vitalSignRepository.findById(id).map(VitalSignMapper.INSTANCE::toDTO).orElseThrow(RuntimeException::new);
     }
 
     public List<VitalSignDTO> getAllVitalSigns() {

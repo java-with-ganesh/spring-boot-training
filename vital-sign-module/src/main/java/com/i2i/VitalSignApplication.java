@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableFeignClients
 @EnableJpaAuditing
+@ExceptionHandler
 @EnableJpaRepositories(basePackages = {"com.ideas2it.spring_source_service.repository", "com.ideas2it.audit.repository","com.i2i"})
 @EntityScan(basePackages = {"com.ideas2it.spring_source_service.model", "com.ideas2it.audit.model","com.i2i"})
 @ComponentScan(basePackages = {"com.ideas2it.spring_source_service", "com.ideas2it.audit","com.i2i"})

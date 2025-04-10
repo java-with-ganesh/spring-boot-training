@@ -3,6 +3,7 @@ package com.i2i.service;
 import com.i2i.model.VitalSignAuditLog;
 import com.i2i.repository.AuditLogRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class VitalSignAuditLogService {
 
     private final AuditLogRepository repository;

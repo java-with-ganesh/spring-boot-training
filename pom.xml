@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
+    <groupId>com.i2i</groupId>
     <artifactId>spring-boot-training</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -21,6 +21,7 @@
         <module>vital-sign-module</module>
         <module>kafka-mongo-sink</module>
         <module>patient-search</module>
+        <module>exception-handler</module>
     </modules>
 
     <parent>
@@ -28,6 +29,13 @@
             <artifactId>spring-boot-starter-parent</artifactId>
             <version>3.4.3</version>
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.i2i</groupId>
+            <artifactId>exception-handler</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

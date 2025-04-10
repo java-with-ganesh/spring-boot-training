@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableFeignClients
 @EnableJpaAuditing
+@ExceptionHandler
 public class PatientApplication {
 
     public static void main(String[] args){

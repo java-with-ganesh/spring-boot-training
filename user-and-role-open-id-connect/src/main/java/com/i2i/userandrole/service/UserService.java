@@ -41,10 +41,12 @@ public class UserService {
     }
 
     public UserDto create(UserRequest userRequest) {
+        log.info("create new user {} started",userRequest.getUsername());
        var trx = platformTransactionManager.getTransaction(TransactionDefinition.withDefaults());
         var user = userMapper.userRequestToUser(userRequest);
         var saved = userRepository.save(user);
         platformTransactionManager.commit(trx);
+        log.info("user {} created",userRequest.getUsername());
         return userMapper.userToUserDto(saved);
     }
 
@@ -55,9 +57,11 @@ public class UserService {
 
 
     public void deleteById(long id) {
+        log.info("deleting user {}",id);
         entityManager.createNativeQuery("delete from users where id=:id")
                 .setParameter("id",id)
                 .executeUpdate();
+        log.info("user {} removed",id);
     }
 
     public UserDto update(long id,UserRequest userRequest) {

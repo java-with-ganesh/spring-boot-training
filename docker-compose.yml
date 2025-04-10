@@ -82,3 +82,17 @@ services:
       ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
     depends_on:
       - elasticsearch
+
+  consul:
+    image: hashicorp/consul:1.16.2
+    container_name: consul
+    ports:
+      - "8500:8500"      # Web UI (http://localhost:8500)
+      - "8600:8600/udp"  # DNS interface
+    command: agent -dev -client=0.0.0.0
+    networks:
+      - consul-net
+
+networks:
+  consul-net:
+    driver: bridge

@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/patients")
 public class PatientController {
@@ -32,11 +30,6 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PatientDTO>> getAllPatients() {
-        return ResponseEntity.ok(patientService.getAllPatients());
-    }
-
-    @GetMapping("/paged")
     public ResponseEntity<Page<PatientDTO>> getAllPatients(Pageable pageable) {
         return ResponseEntity.ok(patientService.getAllPatients(pageable));
     }

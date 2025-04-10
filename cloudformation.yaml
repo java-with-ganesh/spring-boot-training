@@ -1,0 +1,163 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Create S3 bucket and trigger Lambda to convert CSV to JSON on upload.
+
+Parameters:
+  Suffix:
+    Type: String
+    Default: cft
+    Description: Suffix to append to bucket name
+
+Resources:
+  CsvJsonBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "my-aws-bucket-i2i-${Suffix}"
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaS3Policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: !Sub "arn:aws:s3:::my-aws-bucket-i2i-${Suffix}/*"
+
+  CsvToJsonLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "CsvToJsonFunction-${Suffix}"
+      Handler: index.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Runtime: python3.9
+      Timeout: 60
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+          import csv
+
+          s3 = boto3.client('s3')
+          BUCKET_NAME = "my-aws-bucket-i2i-cft"  # Replace dynamically if needed
+
+          def lambda_handler(event, context):
+              record = event['Records'][0]
+              input_key = record['s3']['object']['key']
+
+              if not input_key.startswith("source/"):
+                  return {
+                      "statusCode": 400,
+                      "body": "File is not in the 'source/' folder."
+                  }
+
+              output_key = input_key.replace("source/", "destination/").replace(".csv", ".json")
+
+              try:
+                  csv_obj = s3.get_object(Bucket=BUCKET_NAME, Key=input_key)
+                  csv_data = csv_obj['Body'].read().decode('utf-8').splitlines()
+                  reader = csv.DictReader(csv_data)
+                  json_data = json.dumps([row for row in reader], indent=4)
+
+                  s3.put_object(Bucket=BUCKET_NAME, Key=output_key, Body=json_data, ContentType="application/json")
+
+                  return {
+                      "statusCode": 200,
+                      "body": f"Converted {input_key} to {output_key}"
+                  }
+
+              except Exception as e:
+                  print(f"Error: {str(e)}")
+                  return {
+                      "statusCode": 500,
+                      "body": f"Error processing file: {str(e)}"
+                  }
+
+  LambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref CsvToJsonLambda
+      Action: lambda:InvokeFunction
+      Principal: s3.amazonaws.com
+      SourceArn: !Sub "arn:aws:s3:::my-aws-bucket-i2i-${Suffix}"
+
+  S3BucketNotification:
+    Type: Custom::S3BucketNotification
+    DependsOn: LambdaPermission
+    Properties:
+      ServiceToken: !GetAtt S3NotificationLambda.Arn
+      Bucket: !Ref CsvJsonBucket
+      NotificationConfiguration:
+        LambdaFunctionConfigurations:
+          - Event: "s3:ObjectCreated:*"
+            Filter:
+              Key:
+                FilterRules:
+                  - Name: prefix
+                    Value: source/
+                  - Name: suffix
+                    Value: .csv
+            LambdaFunctionArn: !GetAtt CsvToJsonLambda.Arn
+
+  S3NotificationLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3NotificationPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - s3:PutBucketNotification
+                Resource: "*"
+
+  S3NotificationLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt S3NotificationLambdaRole.Arn
+      Runtime: python3.9
+      Timeout: 60
+      Code:
+        ZipFile: |
+          import boto3
+          import json
+
+          def handler(event, context):
+              s3 = boto3.client("s3")
+              props = event["ResourceProperties"]
+              bucket = props["Bucket"]
+              notification_config = props["NotificationConfiguration"]
+              s3.put_bucket_notification_configuration(
+                  Bucket=bucket,
+                  NotificationConfiguration=notification_config
+              )
+              return { "PhysicalResourceId": f"{bucket}-notify" }

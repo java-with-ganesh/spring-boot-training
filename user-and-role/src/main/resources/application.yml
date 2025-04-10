@@ -20,6 +20,12 @@ spring:
       profile: ${spring.profiles.active}
       fail-fast: false
       enabled: true
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+        register: true
   config:
     import: "configserver:"
 server:

@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@ExceptionHandler
 public class KafkaMongoSinkApplication {
 
     public static void main(String[] args) {
